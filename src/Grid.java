@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -25,11 +26,24 @@ public class Grid {
 
     private Grid_Element Grid[][];
     private LinkedList<Open_Position> open_positions;
+    private ArrayList<Integer>[] columns;
+    private ArrayList<Integer>[] rows;
+
 
     public Grid(){
         this.Grid = new Grid_Element[9][9];     //A standard Sudoku Grid
         this.open_positions = new LinkedList<>();
         initialize_grid();
+        this.columns = new ArrayList[9];
+        this.rows = new ArrayList[9];
+        for(int i=0;i<9;i++) {
+            columns[i] = new ArrayList<>(9);
+            rows[i] = new ArrayList<>(9);
+            for(int j=1;j<10;j++){
+                columns[i].add(j);
+                rows[i].add(j);
+            }
+        }
     }
 
     public void initialize_grid(){
@@ -61,12 +75,27 @@ public class Grid {
           int next_int = scanner.nextInt();
           Grid[i][j++].setValue(next_int);
           if(next_int == 0) open_positions.add(new Open_Position(i,j-1));
+          else{
+              columns[j-1].remove(Integer.valueOf(next_int));
+              rows[i].remove(Integer.valueOf(next_int));
+          }
           if(j>0 && j%9==0){
               i++;
               j=0;
           }
         }
+
+        for(int k=0;k<9;k++){
+            System.out.printf("Row: %d, open possibilities: ",k);
+            for (int l:rows[k]) {
+                System.out.printf("%d ",l);
+            }
+            System.out.println();
+            System.out.printf("Column: %d, open possibilities: ",k);
+            for (int l:columns[k]) {
+                System.out.printf("%d ",l);
+            }
+            System.out.println();
+        }
     }
-
-
 }
