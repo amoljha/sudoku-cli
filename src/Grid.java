@@ -64,6 +64,24 @@ public class Grid {
         }
     }
 
+    public static int get_block(int i, int j){
+        if(i>=0 && i<3){
+            if(j>=0 && j<3) return 0;
+            else if(j>=3 && j<6) return 1;
+            else return 2;
+        }
+        if(i>=3 && i<6){
+            if(j>=0 && j<3) return 3;
+            else if(j>=3 && j<6) return 4;
+            else return 5;
+        }
+        else{
+            if(j>=0 && j<3) return 6;
+            else if(j>=3 && j<6) return 7;
+            else return 8;
+        }
+    }
+
     public void parse_file(String filename) throws FileNotFoundException{
         File file = new File(filename);
         Scanner scanner = new Scanner(file);
